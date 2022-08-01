@@ -21,7 +21,7 @@ export const Container = styled.form`
     transition: border-color 0.2s;
 
     &::placeholder {
-     border-color: ${darken(0.1, 'd7d7d7')}  
+     border-color: ${darken(0.1, '#d7d7d7')};  
     }
 
     & + input {
