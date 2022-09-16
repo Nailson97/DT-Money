@@ -4,7 +4,7 @@ import { Container } from "./styles";
 
 
 export function Transaction() {
-  const transactions = useContext(TransactionsContext)
+  const { transactions } = useContext(TransactionsContext)
 
   return (
     <Container>
@@ -17,6 +17,7 @@ export function Transaction() {
             <th>Data</th>
           </tr>
         </thead>
+
         <tbody>
           {transactions.map((transaction) => (
             <tr key={transaction.id}>
@@ -36,6 +37,7 @@ export function Transaction() {
             </tr>
           ))}
         </tbody>
+
       </table>
     </Container>
   );
