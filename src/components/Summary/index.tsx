@@ -1,12 +1,28 @@
-import { useContext } from "react";
 import EntradasImg from "../../assets/Entradas.svg";
 import SaidasImg from "../../assets/Saidas.svg";
 import TotalImg from "../../assets/Total.svg";
-import { TransactionsContext } from "../../TransactionsContext";
+import { useTransactions } from "../../hooks/useTransactions";
 import { Container } from "./styles";
 
 export function Summary() {
- const { transactions } = useContext(TransactionsContext)
+ const { transactions } = useTransactions()
+
+ const sumary = transactions.reduce((acc, transaction) => {
+     if (transaction.type == "deposit") {
+       acc.deposit += transaction.amount;
+       acc.total += transaction.amount;
+     } else {
+       acc.withdraw += transaction.amount;
+       acc.total -= transaction.amount;
+     }
+
+     return acc
+   }, {
+     deposit: 0,
+     withdraw: 0,
+     total: 0,
+   }
+ );
 
   return (
     <Container>
@@ -15,21 +31,31 @@ export function Summary() {
           <p>Entradas</p>
           <img src={EntradasImg} alt="Entradas" />
         </header>
-        <strong>R$2500,00</strong>
+        <strong>
+        {new Intl.NumberFormat("pt-BR", {
+              style: "currency",
+              currency: "BRL",
+           }).format(sumary.deposit)}</strong>
       </div>
       <div>
         <header>
           <p>Saidas</p>
           <img src={SaidasImg} alt="Saidas" />
         </header>
-        <strong> -R$500,00</strong>
+        <strong> - {new Intl.NumberFormat("pt-BR", {
+              style: "currency",
+              currency: "BRL",
+           }).format(sumary.withdraw)}</strong>
       </div>
       <div className="green-background">
         <header>
           <p>Total</p>
           <img src={TotalImg} alt="Total" />
         </header>
-        <strong>R$2000,00</strong>
+        <strong> {new Intl.NumberFormat("pt-BR", {
+              style: "currency",
+              currency: "BRL",
+           }).format(sumary.total)}</strong>
       </div>
     </Container>
   );
